@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
-from bridges.bridges import Bridges
-from bridges.data_src_dependent import get_earthquake_usgs_data
+from bridges.bridges import *
+from bridges.data_src_dependent import *
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 def get_earthquakes():
     try:
         bridges = Bridges(0, "pranathim", "1735501070239")
-        data = get_earthquake_usgs_data(50)
+        data = get_earthquake_usgs_data(1000)
 
         result = []
         for quake in data:
@@ -16,7 +16,8 @@ def get_earthquakes():
                 "title": quake.title,
                 "magnitude": quake.magnitude,
                 "location": quake.location,
-                "time": quake.time,
+                "lat": quake.latit,
+                "long": quake.longit,
             })
         
         return jsonify(result)
