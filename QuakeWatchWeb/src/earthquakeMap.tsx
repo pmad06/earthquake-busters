@@ -13,10 +13,11 @@ L.Icon.Default.mergeOptions({
 });
 
 type Earthquake = {
-  title: string;
+  location: string;
   magnitude: number;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  long: number;
+  url: string;
 };
 
 interface Props {
@@ -39,11 +40,10 @@ export const EarthquakeMap: React.FC<Props> = ({ earthquakes, center }) => {
           attribution="&copy; OpenStreetMap contributors"
         />
 
-
         {earthquakes.map((quake, index) => (
-          <Marker key={index} position={[quake.latitude, quake.longitude]}>
+          <Marker key={index} position={[quake.lat, quake.long]}>
             <Popup>
-              <strong>{quake.title}</strong>
+              <strong>{quake.location}</strong>
               <br />
               Magnitude: {quake.magnitude}
             </Popup>
