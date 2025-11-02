@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from bridges.bridges import *
 from bridges.data_src_dependent import *
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/earthquakes", methods=["GET"])
 def get_earthquakes():
