@@ -18,6 +18,7 @@ def get_earthquakes():
                 "location": quake.location,
                 "lat": quake.latit,
                 "long": quake.longit,
+                "url": quake.url,
             })
         
         return jsonify(result)
