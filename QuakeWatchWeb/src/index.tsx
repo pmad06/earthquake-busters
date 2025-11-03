@@ -3,10 +3,11 @@ import { EarthquakeMap } from './earthquakeMap';
 import 'leaflet/dist/leaflet.css';
 
 type Earthquake = {
-  title: string;
+  location: string;
   magnitude: number;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  long: number;
+  url: string;
 };
 
 export default function Home() {
@@ -14,6 +15,9 @@ export default function Home() {
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
+  const [magnitude, setMagnitude] = useState<number | null>(null);
+  const [location, setLocation] = useState('');
+  const [url, setURL] = useState('');
   const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
  
   useEffect(() => {
@@ -23,14 +27,34 @@ export default function Home() {
       .catch(err => console.error(err));
   }, []);
 
-
   return (
     <div>
       <h1>Earthquake Map</h1>
-      <EarthquakeMap earthquakes={earthquakes} center = {mapCenter}/>
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px', width: '1000px' }}>
+        <div style={{ flex: 3 }}>
+          <EarthquakeMap earthquakes={earthquakes} center={mapCenter} />
+        </div>
+        <div style ={{ 
+          flex: 1,
+          backgroundColor: 'white',
+          border: '1px solid #ccc',
+          borderRadius: '10px',
+          color:'black', 
+          textAlign: 'left', 
+          padding: '10px',
+          }}>
+          <h3>Location: </h3>
+            <p>{location}</p>
+          <h3>Magnitude: </h3>
+            <p>{magnitude}</p>
+            <h3>More Info:</h3>
+            <p style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+              <a href={url} target="_blank" rel="noreferrer">{url}</a>
+            </p>        
+         </div>
+      </div>     
 
-
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <div style={{ marginTop: '20px', marginRight: '220px' }}>
         <input
           type="number"
           placeholder="Latitude"
@@ -55,6 +79,18 @@ export default function Home() {
           onClick={() => {
             if (latitude !== null && longitude !== null) {
               setMapCenter([latitude, longitude]);
+               
+              // Find earthquake matching entered lat/lng
+              const match = earthquakes.find((q) =>
+                  Math.abs(q.lat - latitude) < 0.01 &&
+                  Math.abs(q.long - longitude) < 0.01
+              );
+
+              if (match) {
+                setLocation(match.location);
+                setMagnitude(match.magnitude);
+                setURL(match.url);
+              } 
             }
           }}
           >
