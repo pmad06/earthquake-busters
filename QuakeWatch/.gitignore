@@ -41,3 +41,8 @@ app-example
 # generated native folders
 /ios
 /android
+
+# .gitignore
+*.exe
+package-lock.json
+node_modules/
