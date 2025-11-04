@@ -37,9 +37,11 @@ export default function Home() {
         <div id = "sidebar" style ={{ flex: 1}}>
           <h3>Location: </h3>
             <p className = 'answers'>{location}</p>
-          <h3>Magnitude: </h3>
-            <p className = 'answers'>{magnitude}</p>
-            <h3>More Info:</h3>
+          <h3>Latitude: </h3>
+            <p className = 'answers'>{latitude}</p>
+          <h3>Longitude: </h3>
+            <p className = 'answers'>{longitude}</p>  
+          <h3>More Info:</h3>
             <p className = 'answers' style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
               <a href={url} target="_blank" rel="noreferrer">{url}</a>
             </p>        
@@ -49,39 +51,28 @@ export default function Home() {
       <div style={{ marginTop: '20px', marginRight: '220px' }}>
         <input
           type="number"
-          placeholder="Latitude"
-          value={latitude !== null ? latitude : ''}
-          onChange={(e) => setLatitude(e.target.value ? parseFloat(e.target.value) : null)}
+          placeholder="Magnitude"
+          value={magnitude !== null ? magnitude : ''}
+          onChange={(e) => setMagnitude(e.target.value ? parseFloat(e.target.value) : null)}
           style={{
             padding: '8px',
             marginRight: '10px',
           }}
           />
-        <input
-          type="number"
-          placeholder="Longitude"
-          value={longitude !== null ? longitude : ''}
-          onChange={(e) => setLongitude(e.target.value ? parseFloat(e.target.value) : null)}
-          style={{
-            padding: '8px',
-            marginRight: '10px',
-          }}
-        />
         <button
           onClick={() => {
-            if (latitude !== null && longitude !== null) {
-              setMapCenter([latitude, longitude]);
-               
+            if (magnitude != null) {
               // Find earthquake matching entered lat/lng
               const match = earthquakes.find((q) =>
-                  Math.abs(q.lat - latitude) < 0.01 &&
-                  Math.abs(q.long - longitude) < 0.01
+                  Math.abs(q.magnitude - magnitude) < 0.01 
               );
-
               if (match) {
+                setLatitude(match.lat);
+                setLongitude(match.long);
                 setLocation(match.location);
                 setMagnitude(match.magnitude);
                 setURL(match.url);
+                setMapCenter([match.lat, match.long]);
               } 
             }
           }}
