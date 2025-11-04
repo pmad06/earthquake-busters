@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from bridges.bridges import *
 from bridges.data_src_dependent import *
+from splay import SplayTree
 
 app = Flask(__name__)
 CORS(app)
@@ -12,16 +13,21 @@ def get_earthquakes():
         bridges = Bridges(0, "pranathim", "1735501070239")
         data = get_earthquake_usgs_data(1000)
 
-        result = []
+        tree = SplayTree()
+
         for quake in data:
-            result.append({
+            key = quake.magnitude
+            value = {
                 "title": quake.title,
                 "magnitude": quake.magnitude,
                 "location": quake.location,
                 "lat": quake.latit,
                 "long": quake.longit,
                 "url": quake.url,
-            })
+            }
+            tree.insert(key, value)
+
+        result = tree.inorder()    
         
         return jsonify(result)
     except Exception as e:
