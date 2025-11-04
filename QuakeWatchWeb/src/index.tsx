@@ -92,7 +92,7 @@ export default function Home() {
             <h3>Location: </h3>
               <p className = 'answers'>{location}</p>
             <h3>Latitude, Longitude: </h3>
-              <p className = 'answers'>{latitude}, {longitude}</p> 
+              <p className = 'answers'>{latitude} {longitude}</p> 
             <h3>Risk Factor:</h3>
               <p className = 'answers'>{riskFactor}</p>
             <h3>More Info:</h3>
@@ -106,58 +106,59 @@ export default function Home() {
         </div>     
 
         <div style={{ marginTop: '20px', marginRight: '320px' }}>
-         <div style={{ position: "relative", display: "inline-block" }}>
-          <input
-            type="text"
-            placeholder="Location"
-            value={location || ''}
-            onChange={(e) => setLocation(e.target.value)}
-            style={{
-              padding: '8px',
-              marginRight: '10px',
-            }}
-            />
-            {suggestions.length > 0 && (
-              <ul style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                right: 0,
-                background: "#fff",
-                border: "1px solid #ccc",
-                maxHeight: "150px",
-                overflowY: "auto",
-                zIndex: 1000,
-                margin: 0,
-                padding: 0,
-                listStyle: "none"
-              }}>
-                {suggestions.map((s, idx) => (
-                  <li
-                    key={idx}
-                    style={{
-                      padding: "4px",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                      color: "black"
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = "#eee"}
-                    onMouseLeave={(e) => e.currentTarget.style.background = "white"}
-                    onClick={() => {
-                      setLocation(s.location);
-                      setLatitude(s.lat);
-                      setLongitude(s.long);
-                      setMagnitude(s.magnitude);
-                      setURL(s.url);
-                      setMapCenter([s.lat, s.long]);
-                      setSuggestions([]);
-                    }}
-                  >
-                    {s.location}
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <input
+              type="text"
+              placeholder="Location"
+              value={location || ''}
+              onChange={(e) => setLocation(e.target.value)}
+              style={{
+                padding: '8px',
+                marginRight: '10px',
+              }}
+              />
+              {suggestions.length > 0 && (
+                <ul style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  right: 0,
+                  background: "#fff",
+                  border: "1px solid #ccc",
+                  maxHeight: "150px",
+                  overflowY: "auto",
+                  zIndex: 1000,
+                  margin: 0,
+                  padding: 0,
+                  listStyle: "none"
+                }}>
+                  {suggestions.map((s, idx) => (
+                    <li
+                      key={idx}
+                      style={{
+                        padding: "4px",
+                        cursor: "pointer",
+                        backgroundColor: "white",
+                        color: "black"
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = "#eee"}
+                      onMouseLeave={(e) => e.currentTarget.style.background = "white"}
+                      onClick={() => {
+                        setLocation(s.location);
+                        setLatitude(s.lat);
+                        setLongitude(s.long);
+                        setMagnitude(s.magnitude);
+                        setURL(s.url);
+                        setMapCenter([s.lat, s.long]);
+                        setSuggestions([]);
+                      }}
+                    >
+                      {s.location}
+                    </li>
+                  ))}
+                </ul>
+              )}
+          </div>
             <button
             onClick={() => {
               if (location && earthquakes.length > 0) {
@@ -185,8 +186,7 @@ export default function Home() {
               style={{ padding: '8px', marginRight: '10px' }}
             />
             <button onClick={handleMagnitudeSearch}>Move Map</button>
-          </div>
-         </div> 
+          </div> 
       </div>
     </>  
   );
