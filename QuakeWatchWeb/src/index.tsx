@@ -49,6 +49,38 @@ export default function Home() {
       </div>     
 
       <div style={{ marginTop: '20px', marginRight: '220px' }}>
+
+        <input
+          type="text"
+          placeholder="Location"
+          value={location || ''}
+          onChange={(e) => setLocation(e.target.value)}
+          style={{
+            padding: '8px',
+            marginRight: '10px',
+          }}
+          />
+
+        <button
+          onClick={() => {
+            if (location != null) {
+              // Find earthquake matching entered location name
+              const match = earthquakes.find((q) => q.location.toLowerCase() === location.toLowerCase()
+              );
+              if (match) {
+                setLatitude(match.lat);
+                setLongitude(match.long);
+                setLocation(match.location);
+                setMagnitude(match.magnitude);
+                setURL(match.url);
+                setMapCenter([match.lat, match.long]);
+              } 
+            }
+          }}
+          >
+            Move Map
+          </button>
+
         <input
           type="number"
           placeholder="Magnitude"
