@@ -34,7 +34,6 @@ export default function Home() {
       if (location.length > 1) {
         fetch(`http://127.0.0.1:5000/search_trie/${encodeURIComponent(location)}`)
           .then(res => res.json())
-          //.then(data => setSuggestions(data))
           .then(data => {
             console.log("Autocomplete results:", data);
             setSuggestions(data);
@@ -74,20 +73,6 @@ export default function Home() {
       .catch(err => console.error(err));
   };
 
-  // const handleLocationSearch = () => {
-  //   if (!location) return;
-
-  //   const match = earthquakes.find(q => q.location.toLowerCase() === location.toLowerCase());
-  //   if (match) {
-  //     setLatitude(match.lat);
-  //     setLongitude(match.long);
-  //     setLocation(match.location);
-  //     setMagnitude(match.magnitude);
-  //     setURL(match.url);
-  //     setMapCenter([match.lat, match.long]);
-  //   }
-  // };
-
   return (
     <>
       <header>
@@ -110,8 +95,6 @@ export default function Home() {
               <p className = 'answers' style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                 <a href={url} target="_blank" rel="noreferrer">{url}</a>
               </p>   
-            {/* <h3>Total Stored in Trie:</h3>
-              <p className="answers">{trieCount}</p> */}
           </div>
         </div>     
 
