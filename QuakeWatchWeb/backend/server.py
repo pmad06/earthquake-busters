@@ -11,74 +11,86 @@ CORS(app)
 #make sure trees r global
 splay_tree = SplayTree()
 trie_tree = Trie()
+earthquake_data = []
 
 def extract_city(location_str):
     if " of " in location_str:
         return location_str.split(" of ")[-1].strip()
     return location_str.strip()
 
-def load_data_into_trees():
+def build_tree():
+   global splay_tree, earthquake_data, trie_tree
+   try:
+       bridges = Bridges(0, "pranathim", "1735501070239")
+       data = get_earthquake_usgs_data(1000)
+       earthquake_data = [] 
 
-    global splay_tree
-    global trie_tree
-    splay_tree = SplayTree()
-    trie_tree = Trie()
+       for quake in data:
+            city = extract_city(quake.location)
+            quake_info = {
+                "title": quake.title,
+                "magnitude": quake.magnitude,
+                "location": city,
+                "lat": quake.latit,
+                "long": quake.longit,
+                "url": quake.url,
+            }
 
-    bridges = Bridges(0, "pranathim", "1735501070239")
-    data = get_earthquake_usgs_data(1000)
+            earthquake_data.append(quake_info)
+            
+            trie_tree.insert(city, quake_info)
 
-    for quake in data:
+            splay_tree.insert(quake.magnitude, quake_info)
 
-        city = extract_city(quake.location)
-        quake_info = {
-            "title": quake.title,
-            "magnitude": quake.magnitude,
-            "location": city,
-            "lat": quake.latit,
-            "long": quake.longit,
-            "url": quake.url,
-        }
 
-        splay_tree.insert(quake.magnitude, quake_info)
-        trie_tree.insert(city, quake_info)
+       print(f"Built splay tree with {len(data)} earthquakes")
+   except Exception as e:
+       print("Error building splay tree:", e)
 
-load_data_into_trees()
+
+build_tree()
+
+# def build_trie_tree():
+#     global trie_tree
+#     trie_tree = Trie()
+
+#     bridges = Bridges(0, "pranathim", "1735501070239")
+#     data = get_earthquake_usgs_data(1000)
+
+#     for quake in data:
+#         city = extract_city(quake.location)
+#         quake_info = {
+#             "title": quake.title,
+#             "magnitude": quake.magnitude,
+#             "location": city,
+#             "lat": quake.latit,
+#             "long": quake.longit,
+#             "url": quake.url,
+#         }
+#         trie_tree.insert(city, quake_info)
+
+# build_trie_tree()
 
 @app.route("/earthquakes", methods=["GET"])
 def get_earthquakes():
-    try:
-        #bridges = Bridges(0, "pranathim", "1735501070239")
+    return jsonify(earthquake_data)
 
-        # global splay_tree
-        # global trie_tree
-        # splay_tree = SplayTree()
-        # trie_tree = Trie()
+# @app.route("/earthquakes", methods=["GET"])
+# def get_earthquakes():
+#     try:
+#         result = splay_tree.inorder()            
+#         return jsonify(result)
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 
-        #data = get_earthquake_usgs_data(1000)
+@app.route("/earthquakes/search/<float:magnitude>", methods=["GET"])
+def search_by_magnitude(magnitude: float):
+   """Search splay tree for earthquakes with a given magnitude."""
+   matches = splay_tree.search(magnitude)
+   if matches is None:
+       matches = []
+   return jsonify(matches)
 
-
-        # for quake in data:
-        #     quake_info = {
-        #         "title": quake.title,
-        #         "magnitude": quake.magnitude,
-        #         "location": quake.location,
-        #         "lat": quake.latit,
-        #         "long": quake.longit,
-        #         "url": quake.url,
-        #     }
-
-        #     splay_tree.insert(quake.magnitude, quake_info)
-        #     trie_tree.insert(quake.title, quake_info)
-
-        result = splay_tree.inorder()    
-        # result = {
-        #     "splay_sorted": splay_tree.inorder(),
-        #     "total_stored_in_trie": trie_tree.wordCtr
-        # }
-        
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
     
 @app.route("/search_trie/<prefix>", methods=["GET"])
 def search_trie(prefix):
