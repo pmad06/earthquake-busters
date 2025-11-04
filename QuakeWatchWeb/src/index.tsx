@@ -86,6 +86,7 @@ export default function Home() {
             }
           }}
           >
+            Move Map
           </button>
 
         <input

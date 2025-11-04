@@ -78,6 +78,7 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-right: 20px;
 }
 
 button:hover {
