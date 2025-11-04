@@ -15,6 +15,16 @@ splay_tree = SplayTree()
 trie_tree = Trie()
 earthquake_data = []
 
+def risk_factor(magnitude: float) -> str:
+    if magnitude < 4:
+        return "Low Risk Earthquake"
+    elif 4 <= magnitude <= 6.9:
+        return "Moderate Risk Earthquake"
+    elif 7 <= magnitude <= 7.9:
+        return "High Risk Earthquake"
+    else:
+        return "Severe Risk Earthquake"
+
 
 def extract_city(location_str):
     if " of " in location_str:
@@ -39,8 +49,8 @@ def build_tree():
                 "lat": quake.latit,
                 "long": quake.longit,
                 "url": quake.url,
+                "risk_factor": risk_factor(quake.magnitude),
             }
-
 
             earthquake_data.append(quake_info)
            
@@ -107,6 +117,12 @@ def search_by_magnitude(magnitude: float):
    matches = splay_tree.search(magnitude)
    if matches is None:
        matches = []
+   
+   results = []
+   for quake in matches: 
+       quakeWithRisk = quake.copy()
+       quakeWithRisk["risk_factor"] = risk_factor(quake["magnitude"])
+       results.append(quakeWithRisk)
    return jsonify(matches)
 
 
