@@ -14,6 +14,7 @@ export default function Home() {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
 
   //const [trieCount, setTrieCount] = useState<number>(0);
+  const [suggestions, setSuggestions] = useState<Earthquake[]>([]);
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -26,12 +27,32 @@ export default function Home() {
     fetch('http://127.0.0.1:5000/earthquakes')
       .then(res => res.json())
       .then(data => setEarthquakes(data))
-      // .then(data => {
+      //.then(data => {
       //   setEarthquakes(data.splay_sorted);
       //   setTrieCount(data.total_stored_in_trie);
-      // })
+      //})
       .catch(err => console.error(err));
   }, []);
+
+  //debounce
+  useEffect(() => {
+  const delay = setTimeout(() => {
+    if (location.length > 1) {
+      fetch(`http://127.0.0.1:5000/search_trie/${encodeURIComponent(location)}`)
+        .then(res => res.json())
+        //.then(data => setSuggestions(data))
+        .then(data => {
+          console.log("Autocomplete results:", data);
+          setSuggestions(data);
+        })
+        .catch(err => console.error(err));
+    } else {
+      setSuggestions([]);
+    }
+  }, 300);
+
+  return () => clearTimeout(delay);
+}, [location]);
 
   return (
     <div id = "homepage">
@@ -57,11 +78,23 @@ export default function Home() {
       </div>     
 
       <div style={{ marginTop: '20px', marginRight: '220px' }}>
-
+        <div style={{ position: "relative", display: "inline-block" }}>
         <input
           type="text"
           placeholder="Location"
           value={location || ''}
+          // onChange={(e) => {
+          //     const val = e.target.value;
+          //     setLocation(val);
+          //   if (val.length > 1) {
+          //     fetch(`http://127.0.0.1:5000/search_trie/${encodeURIComponent(val)}`)
+          //       .then(res => res.json())
+          //       .then(data => setSuggestions(data))
+          //       .catch(err => console.error(err));
+          //   } else {
+          //     setSuggestions([]);
+          //   }
+          // }}
           onChange={(e) => setLocation(e.target.value)}
           style={{
             padding: '8px',
@@ -69,7 +102,51 @@ export default function Home() {
           }}
           />
 
-        <button
+          {suggestions.length > 0 && (
+            <ul style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              background: "#fff",
+              border: "1px solid #ccc",
+              maxHeight: "150px",
+              overflowY: "auto",
+              zIndex: 1000,
+              margin: 0,
+              padding: 0,
+              listStyle: "none"
+            }}>
+              {suggestions.map((s, idx) => (
+                <li
+                  key={idx}
+                  style={{
+                    padding: "4px",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    color: "black"
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = "#eee"}
+                  onMouseLeave={(e) => e.currentTarget.style.background = "white"}
+                  onClick={() => {
+                    setLocation(s.location);
+                    setLatitude(s.lat);
+                    setLongitude(s.long);
+                    setMagnitude(s.magnitude);
+                    setURL(s.url);
+                    setMapCenter([s.lat, s.long]);
+                    setSuggestions([]);
+                  }}
+                >
+                  {s.location}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+
+        {/* <button
           onClick={() => {
             if (location != null) {
               // Find earthquake matching entered location name
@@ -87,7 +164,61 @@ export default function Home() {
           }}
           >
             Move Map
-          </button>
+          </button> */}
+
+          <button
+          onClick={() => {
+            if (location && earthquakes.length > 0) { 
+              const match = earthquakes.find(
+                (q) => q.location.toLowerCase() === location.toLowerCase()
+              );
+              if (match) {
+                setLatitude(match.lat);
+                setLongitude(match.long);
+                setLocation(match.location);
+                setMagnitude(match.magnitude);
+                setURL(match.url);
+                setMapCenter([match.lat, match.long]);
+              }
+            }
+          }}
+        >
+          Move Map
+        </button>
+
+        
+        {/* <ul style={{
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          right: 0,
+          background: "#fff",
+          border: "1px solid #ccc",
+          maxHeight: "150px",
+          overflowY: "auto",
+          zIndex: 1000,
+          margin: 0,
+          padding: 0,
+          listStyle: "none"
+        }}>
+          {suggestions.map((s, idx) => (
+            <li
+              key={idx}
+              style={{ padding: "4px", cursor: "pointer" }}
+              onClick={() => {
+                setLocation(s.location);
+                setLatitude(s.lat);
+                setLongitude(s.long);
+                setMagnitude(s.magnitude);
+                setURL(s.url);
+                setMapCenter([s.lat, s.long]);
+                setSuggestions([]);
+              }}
+            >
+              {s.location}
+            </li>
+          ))}
+        </ul> */}
 
         <input
           type="number"
