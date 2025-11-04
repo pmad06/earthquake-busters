@@ -18,6 +18,7 @@ type Earthquake = {
   lat: number;
   long: number;
   url: string;
+  risk_factor: string; 
 };
 
 interface Props {
@@ -51,6 +52,8 @@ export const EarthquakeMap: React.FC<Props> = ({ earthquakes, center, filterMagn
               <strong>{quake.location}</strong>
               <br />
               Magnitude: {quake.magnitude}
+              < br />
+              Risk Factor: {quake.risk_factor}
             </Popup>
           </Marker>
         ))}

@@ -26,14 +26,15 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(163, 207, 130, 0.476);
+  background-color: rgba(176, 206, 154, 0.599);
   
   margin: 0;
   margin-bottom: 40px;
   border-radius: 10px;
   font-size: 40px;
-  font-family: Arial;
+  font-family: "Nunito Sans";
   color: white;
+  font-weight: bold;
 }
 
 #homepage{
