@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
@@ -23,24 +23,29 @@ type Earthquake = {
 interface Props {
   earthquakes: Earthquake[];
   center: [number, number];
+  filterMagnitude?: number; // optional filter prop
 }
 
-export const EarthquakeMap: React.FC<Props> = ({ earthquakes, center }) => {
+export const EarthquakeMap: React.FC<Props> = ({ earthquakes, center, filterMagnitude }) => {
+  // Filter earthquakes by magnitude if provided
+  const displayedEarthquakes = filterMagnitude != null
+    ? earthquakes.filter(q => Math.abs(q.magnitude - filterMagnitude) < 0.01)
+    : earthquakes;
+
   return (
     <div>
-      {/* Map */}
       <MapContainer
         center={center}
-        zoom={5}
+        zoom={10}
         style={{ height: '500px', width: '100%' }}
-        key = {center.toString()}
+        key={center.toString()}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        {earthquakes.map((quake, index) => (
+        {displayedEarthquakes.map((quake, index) => (
           <Marker key={index} position={[quake.lat, quake.long]}>
             <Popup>
               <strong>{quake.location}</strong>
@@ -53,6 +58,3 @@ export const EarthquakeMap: React.FC<Props> = ({ earthquakes, center }) => {
     </div>
   );
 };
-
-
-

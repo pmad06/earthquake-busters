@@ -2,20 +2,20 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from bridges.bridges import *
 from bridges.data_src_dependent import *
-from splay import SplayTree
-from trie import Trie
+from splay import SplayTree  
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/earthquakes", methods=["GET"])
-def get_earthquakes():
+splay_tree = SplayTree()
+earthquake_data = []
+
+def build_splay_tree():
+    global splay_tree, earthquake_data
     try:
         bridges = Bridges(0, "pranathim", "1735501070239")
         data = get_earthquake_usgs_data(1000)
-
-        splay_tree = SplayTree()
-        trie_tree = Trie()
+        earthquake_data = []  
 
         for quake in data:
             quake_info = {
@@ -26,23 +26,28 @@ def get_earthquakes():
                 "long": quake.longit,
                 "url": quake.url,
             }
+            earthquake_data.append(quake_info)
 
             splay_tree.insert(quake.magnitude, quake_info)
-            trie_tree.insert(quake.title, quake_info)
 
-        result = splay_tree.inorder()    
-        # result = {
-        #     "splay_sorted": [node for node in splay_tree.inorder()],
-        #     #"total_stored_in_trie": trie_tree.wordCtr
-        # }
-        
-        return jsonify(result)
+        print(f"Built splay tree with {len(data)} earthquakes")
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
+        print("Error building splay tree:", e)
 
+build_splay_tree()
+
+@app.route("/earthquakes", methods=["GET"])
+def get_earthquakes():
+    """Return all earthquake data for map display."""
+    return jsonify(earthquake_data)
+
+@app.route("/earthquakes/search/<float:magnitude>", methods=["GET"])
+def search_by_magnitude(magnitude: float):
+    """Search splay tree for earthquakes with a given magnitude."""
+    matches = splay_tree.search(magnitude) 
+    if matches is None:
+        matches = []
+    return jsonify(matches)
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-#testing 

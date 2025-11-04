@@ -13,6 +13,29 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+header{
+  width:100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(163, 207, 130, 0.476);
+  
+  margin: 0;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  font-size: 40px;
+  font-family: Arial;
+  color: white;
+}
+
 #homepage{
   background-color: white;
   border-radius: 10px;
@@ -21,7 +44,7 @@
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 35px;
   line-height: 1.1;
   font-family: "Nunito Sans";
   color: rgb(162, 156, 156);
@@ -50,14 +73,6 @@ a {
 }
 a:hover {
   color: #8395d5;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 input{
