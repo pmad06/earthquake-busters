@@ -13,6 +13,8 @@ type Earthquake = {
 export default function Home() {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
 
+  //const [trieCount, setTrieCount] = useState<number>(0);
+
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [magnitude, setMagnitude] = useState<number | null>(null);
@@ -24,6 +26,10 @@ export default function Home() {
     fetch('http://127.0.0.1:5000/earthquakes')
       .then(res => res.json())
       .then(data => setEarthquakes(data))
+      // .then(data => {
+      //   setEarthquakes(data.splay_sorted);
+      //   setTrieCount(data.total_stored_in_trie);
+      // })
       .catch(err => console.error(err));
   }, []);
 
@@ -44,7 +50,9 @@ export default function Home() {
           <h3>More Info:</h3>
             <p className = 'answers' style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
               <a href={url} target="_blank" rel="noreferrer">{url}</a>
-            </p>        
+            </p>   
+          {/* <h3>Total Stored in Trie:</h3>
+            <p className="answers">{trieCount}</p> */}
          </div>
       </div>     
 
@@ -78,7 +86,6 @@ export default function Home() {
             }
           }}
           >
-            Move Map
           </button>
 
         <input

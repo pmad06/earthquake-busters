@@ -30,11 +30,11 @@ def get_earthquakes():
             splay_tree.insert(quake.magnitude, quake_info)
             trie_tree.insert(quake.title, quake_info)
 
-        #result = tree.inorder()    
-        result = {
-            "splay_sorted": splay_tree.inorder(),
-            "total_stored_in_trie": trie_tree.wordCtr
-        }
+        result = splay_tree.inorder()    
+        # result = {
+        #     "splay_sorted": [node for node in splay_tree.inorder()],
+        #     #"total_stored_in_trie": trie_tree.wordCtr
+        # }
         
         return jsonify(result)
     except Exception as e:
