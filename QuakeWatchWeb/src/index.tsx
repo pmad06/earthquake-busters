@@ -109,7 +109,7 @@ export default function Home() {
           <div style={{ position: "relative", display: "inline-block" }}>
             <input
               type="text"
-              placeholder="Location"
+              placeholder="Location (City, State)"
               value={location || ''}
               onChange={(e) => setLocation(e.target.value)}
               style={{
