@@ -84,16 +84,18 @@ def search_by_magnitude(magnitude: float):
 def search_trie(prefix):
     try:
         results = trie_tree.autocomplete(prefix, limit=10)
-        shaped = [
-            {
-                "location": quake_obj["location"],
-                "lat": quake_obj["lat"],
-                "long": quake_obj["long"],
-                "magnitude": quake_obj["magnitude"],
-                "url": quake_obj["url"]
-            }
-            for quake_obj in results
-        ]
+        shaped =[
+                    {
+                        "title": quake_obj["title"],
+                        "location": quake_obj["location"],
+                        "lat": quake_obj["lat"],
+                        "long": quake_obj["long"],
+                        "magnitude": quake_obj["magnitude"],
+                        "url": quake_obj["url"],
+                        "risk_factor": risk_factor(quake_obj["magnitude"])
+                    }
+                    for quake_obj in results
+                ]
 
         print("Autocomplete results for", prefix, ":", shaped[:3]) #debug
         #return jsonify(results)
