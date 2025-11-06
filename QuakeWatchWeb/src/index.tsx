@@ -21,7 +21,6 @@ export default function Home() {
   const [location, setLocation] = useState('');
   const [url, setURL] = useState('');
   const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
-  const [riskFactor, setRiskFactor] = useState<string>('');
  
   useEffect(() => {
     fetch('http://127.0.0.1:5000/earthquakes')
@@ -65,7 +64,6 @@ export default function Home() {
           setLocation(firstMatch.location);
           setMagnitude(firstMatch.magnitude);
           setURL(firstMatch.url);
-          setRiskFactor(firstMatch.risk_factor);
   
           setMapCenter([firstMatch.lat, firstMatch.long]);
   
@@ -93,8 +91,6 @@ export default function Home() {
               <p className = 'answers'>{location}</p>
             <h3>Latitude, Longitude: </h3>
               <p className = 'answers'>{latitude} {longitude}</p> 
-            <h3>Risk Factor:</h3>
-              <p className = 'answers'>{riskFactor}</p>
             <h3>More Info:</h3>
               <p className = 'answers' style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                 <a href={url} target="_blank" rel="noreferrer">{url}</a>
