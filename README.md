@@ -24,13 +24,14 @@ To get the Earthquake Risk Guide running on your local machine, follow these ins
 
 **To run our backend server, input these three commands into your terminal:**
 
-### For Linux/Windows**
+**For Linux/Windows**
 ```bash
 cd QuakeWatchWeb       # to switch into our QuakeWatchWeb folder
 cd backend             # to switch into our backend folder
 python server.py       # to run the backend server
-     
-**For MacOS**
+```     
+*For MacOS**
+```bash
 cd QuakeWatchWeb            # to switch into our QuakeWatchWeb folder
 cd backend                  # to switch into our backend folder
 source venv/bin/activate    # needed on Mac to create a virtual machine environment
@@ -38,7 +39,7 @@ python3 server.py           # to run the backend server
 ```
 **To run our frontend server, input these two commands into a new terminal:** 
 
-### For Linux/Windows/MacOS
+**For Linux/Windows/MacOS**
 ```bash 
 cd QuakeWatchWeb    to switch into our QuakeWatchWeb folder
 npm run dev         to run our react app
