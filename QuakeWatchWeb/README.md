@@ -15,6 +15,21 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
+
+## Installation
+# 1. Clone the repository
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+
+# 2. Install dependencies
+npm install
+# or
+pnpm install
+# or
+yarn install
+
+# 3. Start the development server
+npm run dev
 ```js
 export default defineConfig([
   globalIgnores(['dist']),
