@@ -41,6 +41,6 @@ python3 server.py           # to run the backend server
 
 **For Windows/Linux/MacOS:**
 ```bash 
-cd QuakeWatchWeb    to switch into our QuakeWatchWeb folder
-npm run dev         to run our react app
+cd QuakeWatchWeb    # to switch into our QuakeWatchWeb folder
+npm run dev         # to run our react app
 ```
