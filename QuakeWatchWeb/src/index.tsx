@@ -11,6 +11,8 @@ type Earthquake = {
   risk_factor: string; 
 };
 
+//https://www.geeksforgeeks.org/reactjs/how-to-fetch-data-from-an-api-in-reactjs/
+//https://leafletjs.com/reference.html#map-example
 export default function Home() {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
   const [suggestions, setSuggestions] = useState<Earthquake[]>([]); //addition for my trie - not in splay rn
@@ -21,7 +23,7 @@ export default function Home() {
   const [location, setLocation] = useState('');
   const [url, setURL] = useState('');
   const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
-  const [riskFactor, setRiskFactor] = useState('');
+
  
   useEffect(() => {
     fetch('http://127.0.0.1:5000/earthquakes')
@@ -66,7 +68,6 @@ export default function Home() {
           setLocation(firstMatch.location);
           setMagnitude(firstMatch.magnitude);
           setURL(firstMatch.url);
-          setRiskFactor(firstMatch.risk_factor);
   
           setMapCenter([firstMatch.lat, firstMatch.long]);
   
@@ -142,15 +143,6 @@ export default function Home() {
                       }}
                       onMouseEnter={(e) => e.currentTarget.style.background = "#eee"}
                       onMouseLeave={(e) => e.currentTarget.style.background = "white"}
-                      // onClick={() => {
-                      //   setLocation(s.location);
-                      //   setLatitude(s.lat);
-                      //   setLongitude(s.long);
-                      //   setMagnitude(s.magnitude);
-                      //   setURL(s.url);
-                      //   setMapCenter([s.lat, s.long]);
-                      //   setSuggestions([]);
-                      // }}
                       onClick={() => {
                         setLocation(s.location);
                         setLatitude(s.lat);
@@ -159,7 +151,6 @@ export default function Home() {
                         setURL(s.url);
                         setMapCenter([s.lat, s.long]);
                         setSuggestions([]);
-                        setRiskFactor(s.risk_factor);
                       }}
 
                     >
@@ -182,7 +173,6 @@ export default function Home() {
                   setMagnitude(match.magnitude);
                   setURL(match.url);
                   setMapCenter([match.lat, match.long]);
-                  setRiskFactor(match.risk_factor);
                 }
               }
             }}

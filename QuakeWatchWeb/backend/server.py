@@ -62,6 +62,7 @@ def build_tree():
 
 build_tree()
 
+#https://bridgesuncc.github.io/tutorials/Data_EQ_USGS.html
 @app.route("/earthquakes", methods=["GET"])
 def get_earthquakes():
     return jsonify(earthquake_data)
