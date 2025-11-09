@@ -19,6 +19,17 @@ seismiscity.
 
 To get the Earthquake Risk Guide running on your local machine, follow these instructions: 
 
+# 1. Clone the repository
+git clone https://github.com/your-username/earthquake-busters.git
+cd earthquake-busters/QuakeWatchWeb
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+
+By default, the app will start at http://localhost:5173
 
 # Usage
 
