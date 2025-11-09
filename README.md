@@ -25,17 +25,35 @@ git clone https://github.com/your-username/earthquake-busters.git
 cd earthquake-busters/QuakeWatchWeb
 ```
 
-# 2. Install dependencies
+# 2. Install frontend dependencies
 ```bash
 npm install
 ```
 
-# 3. Start the development server
+# 3. Start the frontend development server
 ```bash
 npm run dev
 ```
-
 By default, the app will start at http://localhost:5173
+
+# 4. Install backend dependencies
+```bash
+cd backend
+pip install flask flask-cors bridges
+```
+If you’re using a virtual environment (recommended on MacOS/Linux):
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install flask flask-cors bridges
+```
+
+# 5. Start the backend development server
+```bash
+cd backend
+python server.py
+```
+By default, the server will start at http://127.0.0.1:5000/earthquakes
 
 # Usage
 
