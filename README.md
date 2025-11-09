@@ -48,13 +48,6 @@ source venv/bin/activate
 pip install flask flask-cors bridges
 ```
 
-# 5. Start the backend development server
-```bash
-cd backend
-python server.py
-```
-By default, the server will start at http://127.0.0.1:5000/earthquakes
-
 # Usage
 
 **To run our backend server, input these three commands into your terminal:**
