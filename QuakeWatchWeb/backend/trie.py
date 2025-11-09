@@ -1,3 +1,5 @@
+#https://www.geeksforgeeks.org/dsa/trie-insert-and-search/
+
 #constructor
 class TrieNode:
     def __init__(self):
@@ -57,9 +59,6 @@ class Trie:
         if limit > 0:
             results = results[:limit]
         return results
-        #if node:
-        #    self.dfs(node, prefixNorm, results, limit)
-        #return results
 
     def dfs(self, node, prefix: str, out: list, limit: int):
         if node is None:
@@ -102,7 +101,7 @@ class Trie:
     def normalize(self, word: str) -> str:
         out = []
         for c in word:
-            if c.isalnum() or c in ['.', '-']:  # ✅ allow digits, letters, dot, minus
+            if c.isalnum() or c in ['.', '-']: 
                 out.append(c.lower())
             elif c.isspace():
                 if not out or out[-1] != ' ':
